@@ -1,6 +1,6 @@
 import unittest
 
-from htmlnode import LeafNode
+from nodes.htmlnode import LeafNode
 
 class TestLeafNode(unittest.TestCase):
     def test_leaf_to_html_p(self):
@@ -31,7 +31,6 @@ class TestLeafNode(unittest.TestCase):
     def test_leaf_to_html_multiple_props(self):
         node = LeafNode("div", "Block", {"id": "main", "style": "color:red;"})
         html = node.to_html()
-        # since dict order is not guaranteed before 3.7, sort for assertion
         self.assertIn('id="main"', html)
         self.assertIn('style="color:red;"', html)
         self.assertTrue(html.startswith("<div") and html.endswith(">Block</div>"))

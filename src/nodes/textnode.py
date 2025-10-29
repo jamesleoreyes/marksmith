@@ -1,7 +1,8 @@
 from enum import Enum
+from typing import Optional
 
 class TextType(Enum):
-    PLAIN = 'plain'
+    TEXT = 'text'
     BOLD = 'bold'
     ITALIC = 'italic'
     CODE = 'code'
@@ -9,12 +10,12 @@ class TextType(Enum):
     IMAGE = 'image'
     
 class TextNode:
-    def __init__(self, text: str, text_type: TextType, url: str | None = None):
+    def __init__(self, text: str, text_type: TextType, url: Optional[str] = None):
         self.text = text
         self.text_type = text_type
         self.url = url
         
-    def __eq__(self, other):
+    def __eq__(self, other: object):
         if not isinstance(other, TextNode):
             return False
         

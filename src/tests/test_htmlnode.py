@@ -1,6 +1,6 @@
 import unittest
 
-from htmlnode import HTMLNode
+from nodes.htmlnode import HTMLNode
 
 class TestHTMLNode(unittest.TestCase):
     def test_eq(self):
@@ -17,10 +17,10 @@ class TestHTMLNode(unittest.TestCase):
 
     def test_props_to_html_empty(self):
         node = HTMLNode('span', 'something', None, None)
-        self.assertEqual(node.props_to_html(), ' ')
+        self.assertEqual(node.props_to_html(), '')
 
     def test_props_to_html_with_props(self):
-        props = {'id': '"header"', 'class': '"main"'}
+        props = {'id': 'header', 'class': 'main'}
         node = HTMLNode('div', 'content', None, props)
         self.assertIn('id="header"', node.props_to_html())
         self.assertIn('class="main"', node.props_to_html())
