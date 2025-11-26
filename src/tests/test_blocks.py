@@ -148,6 +148,19 @@ the **same** even with inline stuff
             html,
             "<div><pre><code>This is text that _should_ remain\nthe **same** even with inline stuff\n</code></pre></div>",
         )
+        
+    def test_quote(self):
+        md = """
+> This is a quote
+> This is another quote
+"""
+
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+            html,
+            "<div><blockquote>This is a quote</blockquote><blockquote>This is another quote</blockquote></div>"
+        )
                
 if __name__ == "__main__":
     unittest.main()

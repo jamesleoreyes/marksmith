@@ -60,7 +60,10 @@ def markdown_to_html_node(markdown):
                 inner_text = '\n'.join(lines[1:-1]) + '\n'
                 html_nodes.append(ParentNode('pre', [LeafNode('code', inner_text)]))
             case BlockType.QUOTE:
-                html_nodes.append(LeafNode('blockquote', block))
+                lines = block.split('\n')
+                for line in lines:
+                    content = line.lstrip('> ')
+                    html_nodes.append(LeafNode('blockquote', content))
             case BlockType.UNORDERED_LIST:
                 html_nodes.append(ParentNode('ul', [LeafNode('li', block)]))
             case BlockType.ORDERED_LIST:
