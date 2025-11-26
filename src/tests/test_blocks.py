@@ -161,6 +161,19 @@ the **same** even with inline stuff
             html,
             "<div><blockquote>This is a quote</blockquote><blockquote>This is another quote</blockquote></div>"
         )
+        
+    def test_unordered_list(self):
+        md = """
+- This is a list item
+- This is another list item
+"""
+
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+            html,
+            "<div><ul><li>This is a list item</li><li>This is another list item</li></ul></div>"
+        )
                
 if __name__ == "__main__":
     unittest.main()

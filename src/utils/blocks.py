@@ -65,7 +65,12 @@ def markdown_to_html_node(markdown):
                     content = line.lstrip('> ')
                     html_nodes.append(LeafNode('blockquote', content))
             case BlockType.UNORDERED_LIST:
-                html_nodes.append(ParentNode('ul', [LeafNode('li', block)]))
+                lines = block.split('\n')
+                child_nodes = []
+                for line in lines:
+                    content = line.lstrip('- ')
+                    child_nodes.append(LeafNode('li', content))
+                html_nodes.append(ParentNode('ul', child_nodes))
             case BlockType.ORDERED_LIST:
                 html_nodes.append(ParentNode('ol', [LeafNode('li', block)]))
             case BlockType.PARAGRAPH:
