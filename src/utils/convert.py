@@ -31,3 +31,16 @@ def text_to_text_nodes(text: str):
     nodes = split_nodes_image(nodes)
     
     return nodes
+
+def markdown_to_blocks(markdown: str) -> list[str]:
+    if type(markdown) != str:
+        raise TypeError('Markdown must be a string')
+    
+    result: list[str] = []
+    blocks = markdown.split('\n\n')
+    
+    for block in blocks:
+        stripped = block.strip()
+        result.append(stripped)
+        
+    return result

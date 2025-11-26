@@ -1,6 +1,6 @@
 import unittest
 from nodes.textnode import TextNode, TextType
-from utils.convert import text_node_to_html_node, text_to_text_nodes
+from utils.convert import markdown_to_blocks, text_node_to_html_node, text_to_text_nodes
 
 class TestTextConversion(unittest.TestCase):
     def test_text(self):
@@ -66,6 +66,67 @@ class TestTextToTextNodes(unittest.TestCase):
             ],
             nodes
         )
+        
+class TestMarkdownBlocks(unittest.TestCase):
+    def test_multiple_blocks(self):
+        md = """
+This is **bolded** paragraph
+
+This is another paragraph with _italic_ text and `code` here
+This is the same paragraph on a new line
+
+- This is a list
+- with items
+"""
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "This is **bolded** paragraph",
+                "This is another paragraph with _italic_ text and `code` here\nThis is the same paragraph on a new line",
+                "- This is a list\n- with items",
+            ],
+        )
+        
+    def test_single_block(self):
+        md = "This is a single paragraph"
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "This is a single paragraph"
+            ],
+        )
+        
+    def test_empty_markdown_string(self):
+        md = ""
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                ""
+            ],
+        )
+        
+    def test_invalid_markdown_type_int(self):
+        md = 12345
+        with self.assertRaises(TypeError):
+            markdown_to_blocks(md)
+            
+    def test_invalid_markdown_type_list(self):
+        md = ["This is a single paragraph"]
+        with self.assertRaises(TypeError):
+            markdown_to_blocks(md)
+            
+    def test_invalid_markdown_type_dict(self):
+        md = {"This is a single paragraph": "This is a single paragraph"}
+        with self.assertRaises(TypeError):
+            markdown_to_blocks(md)
+            
+    def test_invalid_markdown_type_none(self):
+        md = None
+        with self.assertRaises(TypeError):
+            markdown_to_blocks(md)
                
 if __name__ == "__main__":
     unittest.main()

@@ -12,7 +12,6 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
             
             parts = node.text.split(delimiter)
             if len(parts) < 3:
-                print(f'parts: {parts}')
                 raise Exception('Invalid text split result. Ensure valid markdown syntax is used for code, bold, or italic text')
             new_nodes.extend([
                 TextNode(f"{parts[0]}", TextType.TEXT),
