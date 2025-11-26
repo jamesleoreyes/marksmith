@@ -174,6 +174,19 @@ the **same** even with inline stuff
             html,
             "<div><ul><li>This is a list item</li><li>This is another list item</li></ul></div>"
         )
+        
+    def test_ordered_list(self):
+        md = """
+1. This is a list item
+2. This is another list item
+"""
+
+        node = markdown_to_html_node(md)
+        html = node.to_html()
+        self.assertEqual(
+            html,
+            "<div><ol><li>This is a list item</li><li>This is another list item</li></ol></div>"
+        )
                
 if __name__ == "__main__":
     unittest.main()

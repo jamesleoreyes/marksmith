@@ -72,7 +72,15 @@ def markdown_to_html_node(markdown):
                     child_nodes.append(LeafNode('li', content))
                 html_nodes.append(ParentNode('ul', child_nodes))
             case BlockType.ORDERED_LIST:
-                html_nodes.append(ParentNode('ol', [LeafNode('li', block)]))
+                lines = block.split('\n')
+                child_nodes = []
+                for i, line in enumerate(lines):
+                    number = int(line.split('.')[0])
+                    if number != i + 1:
+                        raise ValueError('Ordered list items must be numbered consecutively')
+                    content = line.lstrip(f'{number}. ')
+                    child_nodes.append(LeafNode('li', content))
+                html_nodes.append(ParentNode('ol', child_nodes))
             case BlockType.PARAGRAPH:
                 noramlized = ' '.join(block.split('\n'))
                 text_nodes = text_to_text_nodes(noramlized)
