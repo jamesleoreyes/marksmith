@@ -1,5 +1,6 @@
 from enum import Enum
 import re
+from utils.regex import HEADING_PATTERN, CODE_PATTERN, QUOTE_PATTERN, ULIST_PATTERN, OLIST_PATTERN
 
 class BlockType(Enum):
     PARAGRAPH = "paragraph"
@@ -22,22 +23,16 @@ def markdown_to_blocks(markdown: str) -> list[str]:
         
     return result
 
-def get_block_type(block: str) -> BlockType:
-    heading_pattern = re.compile(r"^#{1,6} .+$")
-    code_pattern = re.compile(f"^```[\s\S]*```$", re.DOTALL)
-    quote_pattern = re.compile(f"^(>.*)(\n>.*)*$")
-    ulist_pattern = re.compile(r"^- .+(?:\n- .+)*$")
-    olist_pattern = re.compile(r"^\d+\. .+(?:\n\d+\. .+)*$")
-    
-    if heading_pattern.fullmatch(block):
+def get_block_type(block: str) -> BlockType:    
+    if HEADING_PATTERN.fullmatch(block):
         return BlockType.HEADING
-    elif code_pattern.fullmatch(block):
+    elif CODE_PATTERN.fullmatch(block):
         return BlockType.CODE
-    elif quote_pattern.fullmatch(block):
+    elif QUOTE_PATTERN.fullmatch(block):
         return BlockType.QUOTE
-    elif ulist_pattern.fullmatch(block):
+    elif ULIST_PATTERN.fullmatch(block):
         return BlockType.UNORDERED_LIST
-    elif olist_pattern.fullmatch(block):
+    elif OLIST_PATTERN.fullmatch(block):
         lines = block.split('\n')
         for i, line in enumerate(lines):
             number = int(line.split('.')[0])
