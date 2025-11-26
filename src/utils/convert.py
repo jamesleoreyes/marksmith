@@ -1,5 +1,6 @@
 from nodes.htmlnode import LeafNode
 from nodes.textnode import TextNode, TextType
+from utils.formatter import split_nodes_delimiter, split_nodes_image, split_nodes_link
 
 
 def text_node_to_html_node(text_node: TextNode):
@@ -19,3 +20,14 @@ def text_node_to_html_node(text_node: TextNode):
             return LeafNode('a', text_node.text, {"href": text_node.url})
         case TextType.IMAGE:
             return LeafNode('img', '', {"src": text_node.url, "alt": text_node.text})
+        
+def text_to_text_nodes(text: str):
+    nodes: list[TextNode] = []
+    
+    nodes = split_nodes_delimiter([TextNode(text, TextType.TEXT)], "`", TextType.CODE)
+    nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
+    nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)
+    nodes = split_nodes_link(nodes)
+    nodes = split_nodes_image(nodes)
+    
+    return nodes
